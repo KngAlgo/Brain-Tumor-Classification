@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Tumor Classification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Brain Tumor Classification</h1>
+            <p>Upload an MRI scan to classify brain tumor types</p>
+        </header>
+
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17,8 12,3 7,8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <h3>Upload MRI Scan</h3>
+                    <p>Drag and drop your image here or click to browse</p>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                    <button class="browse-btn">
+                        Browse Files
+                    </button>
+                </div>
+            </div>
+            
+            <div class="file-info" id="fileInfo" style="display: none;">
+                <div class="file-details">
+                    <span class="file-name" id="fileName"></span>
+                    <button class="remove-btn" onclick="removeFile()">×</button>
+                </div>
+            </div>
+
+            <button class="predict-btn" id="predictBtn" onclick="predictImage()" disabled>
+                <span class="btn-text">Classify Tumor</span>
+                <div class="loader" style="display: none;"></div>
+            </button>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h2>Classification Results</h2>
+            
+            <div class="result-grid">
+                <div class="image-preview">
+                    <h3>Uploaded Image</h3>
+                    <img id="previewImage" alt="Uploaded MRI scan">
+                </div>
+                
+                <div class="prediction-results">
+                    <h3>Prediction</h3>
+                    <div class="main-prediction">
+                        <div class="predicted-class" id="predictedClass"></div>
+                        <div class="confidence" id="confidence"></div>
+                    </div>
+                    
+                    <div class="all-predictions">
+                        <h4>All Probabilities</h4>
+                        <div class="probability-bars" id="probabilityBars"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="error-message" id="errorMessage" style="display: none;"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
