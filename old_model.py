@@ -39,14 +39,14 @@ val_imgs = val_imgs.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
 def build_model():
     input = keras.Input(shape=(256, 256, 3))
     
-    # Data augmentation first (on original pixel values)
-    x = layers.RandomFlip("horizontal")(input)
+    # Normalization first
+    x = layers.Rescaling(1./255)(input)
+    
+    # Data augmentation (only during training)
+    x = layers.RandomFlip("horizontal")(x)
     x = layers.RandomRotation(0.05)(x)  # Reduced rotation
     x = layers.RandomZoom(0.05)(x)     # Reduced zoom
     x = layers.GaussianNoise(0.05)(x)  # Reduced noise
-    
-    # Normalization after augmentation
-    x = layers.Rescaling(1./255)(x)
 
     # Deeper CNN architecture with better regularization
     filter_sizes = [32, 64, 128]
@@ -76,7 +76,7 @@ model.compile(
 
 # Add callbacks for better training
 callbacks = [
-    tf.keras.callbacks.ModelCheckpoint("brain_tumor_v3.h5", save_best_only=True, monitor='val_accuracy'),
+    tf.keras.callbacks.ModelCheckpoint("brain_tumor_v2.h5", save_best_only=True, monitor='val_accuracy'),
     tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, min_lr=1e-7, verbose=1),
     tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=10, restore_best_weights=True, verbose=1)
 ]
