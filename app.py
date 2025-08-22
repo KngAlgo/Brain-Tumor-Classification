@@ -20,7 +20,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Load the trained model
-MODEL_PATH = 'brain_tumor_final.h5'  # Update this to your model path
+MODEL_PATH = 'brain_tumor_v2.h5'  # Update this to your model path
 model = None
 class_names = ['glioma', 'meningioma', 'pituitary tumor']  # Update with your classes
 
